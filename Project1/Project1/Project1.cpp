@@ -3,6 +3,11 @@
 
 #include "framework.h"
 #include "Project1.h"
+#include "stdio.h"  
+#include "io.h"
+#include <synchapi.h>
+#include <time.h>
+
 
 #define MAX_LOADSTRING 100
 
@@ -148,34 +153,129 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
 
-
+            int T = 300; 
 
             HBITMAP bmw;
             HDC memdc;
-    
-            while (1) {
-                bmw = (HBITMAP)LoadImage(NULL, L"D:\\bgr.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);            //фон + фаза 0
+            
+            int nMyTime =0;
+            while (nMyTime < 5) {
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100bgr_.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);            //фон + фаза 0
                 memdc = CreateCompatibleDC(hdc);
                 SelectObject(memdc, bmw);
                 BitBlt(hdc, 0, 0, 2000, 2000, memdc, 0, 0, SRCCOPY); //SRCCOPY
 
-                bmw = (HBITMAP)LoadImage(NULL, L"D:\\a0_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 0
-                memdc = CreateCompatibleDC(hdc);
-                SelectObject(memdc, bmw);
-                BitBlt(hdc, 516, 58, 169, 251, memdc, 0, 0, SRCINVERT);
+                Sleep(T);
 
-                bmw = (HBITMAP)LoadImage(NULL, L"D:\\a1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);             //фаза 1
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a0_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 0
                 memdc = CreateCompatibleDC(hdc);
                 SelectObject(memdc, bmw);
-                BitBlt(hdc, 516, 58, 169, 251, memdc, 0, 0, SRCCOPY);
+                BitBlt(hdc, 538, 41, 67, 100, memdc, 0, 0, SRCINVERT);
 
-                bmw = (HBITMAP)LoadImage(NULL, L"D:\\a1_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 1
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);             //фаза 1
                 memdc = CreateCompatibleDC(hdc);
                 SelectObject(memdc, bmw);
-                BitBlt(hdc, 516, 58, 169, 251, memdc, 0, 0, SRCINVERT);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCCOPY);
+
+                Sleep(T);
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a1_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 1
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCINVERT);
+
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a2.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);             //фаза 2
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCCOPY);
+
+                Sleep(T);
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a2_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 2
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCINVERT);
+
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a3.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);             //фаза 3
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCCOPY);
+
+                Sleep(T);
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a3_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 3
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCINVERT);
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a4.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);             //фаза 4
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCCOPY);
+
+                Sleep(T);
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a4_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 4
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCINVERT);
+
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a3.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);             //фаза 3 (вниз)
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCCOPY);
+
+                Sleep(T);
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a3_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 3
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCINVERT);
+                nMyTime++;
+
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a2.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);             //фаза 2 (вниз)
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCCOPY);
+
+                Sleep(T);
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a2_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 2
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCINVERT);
+
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);             //фаза 1 (вниз)
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCCOPY);
+
+                Sleep(T);
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a1_inv.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);         //удаление - инвертированная фаза 1
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCINVERT);
+
+
+                bmw = (HBITMAP)LoadImage(NULL, L"D:\\100a0.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);            //фаза 0
+                memdc = CreateCompatibleDC(hdc);
+                SelectObject(memdc, bmw);
+                BitBlt(hdc, 538, 41, 169, 251, memdc, 0, 0, SRCCOPY); //SRCCOPY
+
+
+
+                nMyTime++;
+
+
             }
             
-
 
 
 
@@ -203,6 +303,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
         {
+            
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;
         }
