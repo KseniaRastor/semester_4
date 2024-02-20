@@ -11,6 +11,15 @@
 
 using namespace std;
 
+
+
+class Student;
+
+class Observer {
+public:
+    void getInfo(Student& value);   
+};
+
 class Student {
 private:
     string m_surname;
@@ -24,6 +33,28 @@ private:
 
 public: 
 
+    Student(string surname, int course) {
+        m_surname = surname;
+        m_course = course;
+    }
+
+    bool operator ==(const Student &other) {
+        return this->m_course == other.m_course;
+    }
+
+    bool operator !=(const Student& other) {
+        return this->m_surname != other.m_surname;
+    }
+
+    Student operator =(const Student &other) {
+        Student tmp(m_surname = other.m_surname, m_course = other.m_course);
+        return tmp;
+    }
+
+    friend void Observer::getInfo(Student& value);
+
+    
+                                                                                                             //конструкторы
     Student() {
         m_surname = " "; m_name = " "; m_fathername = " ";
         m_birthday = " "; m_address = " "; m_phone = 000000;
@@ -52,7 +83,35 @@ public:
         cout << m_course << "\n";
     }
 
-    int CreateCopy(string choosen_surname) {
+    string getSurname() {
+        return m_surname;
+    }
+
+    void SetSurname(string surname) {
+        m_surname = surname;
+    }
+
+    int getCourse() {
+        return m_course;
+    }
+
+    void SetCourse(int course) {
+        m_course = course;
+    }
+
+    Student CreateCopy(const Student& tmp_people) {             
+        m_surname = tmp_people.m_surname;
+        m_name = tmp_people.m_name;
+        m_fathername = tmp_people.m_fathername;
+        m_birthday = tmp_people.m_birthday;
+        m_address = tmp_people.m_address;
+        m_phone = tmp_people.m_phone;
+        m_faculty = tmp_people.m_faculty;
+        m_course = tmp_people.m_course;
+        return tmp_people;
+    }
+
+    int FundSurname(string choosen_surname) {
         if (m_surname == choosen_surname) return 1;
         else return 0;
     }
@@ -78,10 +137,32 @@ public:
         if (m_course == choosen_course) return 1;
         else return 0;
     }
+
+
+    Student(string tmp1_surname, string tmp1_name, string tmp1_fathername, string tmp1_birthday, string tmp1_address, int tmp1_phone, string tmp1_faculty, int tmp1_course) {
+        m_surname = tmp1_surname;
+        m_name = tmp1_name;
+        m_fathername = tmp1_fathername;
+        m_birthday = tmp1_birthday;
+        m_address = tmp1_address;
+        m_phone = tmp1_phone;
+        m_faculty = tmp1_faculty;
+        m_course = tmp1_course;
+    }
+
     
-    ~Student(){ /*std::cout << "Вызов деструктора " << this << std::endl;*/ }
-       
+    ~Student(){/*  std::cout << "Вызов деструктора " << this << std::endl; */}
+
 };
+
+
+
+
+
+
+
+
+string new_s;
 
 int main(){
     setlocale(0, "rus");
@@ -103,6 +184,7 @@ int main(){
     string choosen_faculty;
     int choosen_year;
     string choosen_surname;
+    
 
     int n;
     printf("Введите количество студентов -> ");
@@ -124,8 +206,21 @@ int main(){
 
     switch (menu_answer) {
     case(1): {
+
+        string tmp1_surname = "Новик";
+        string tmp1_name = "Илья";
+        string tmp1_fathername = "Львович";
+        string tmp1_birthday = "20.01.2003";
+        string tmp1_address = "Пенза";
+        int tmp1_phone = 121214;
+        string tmp1_faculty = "ФВТ";
+        int tmp1_course = 2;
+        Student a(tmp1_surname, tmp1_name, tmp1_fathername, tmp1_birthday, tmp1_address, tmp1_phone, tmp1_faculty, tmp1_course);
+
+
+
         for (int i = 0; i < n; ++i) {
-            Student people;
+            Student people(tmp1_surname, tmp1_name, tmp1_fathername, tmp1_birthday, tmp1_address, tmp1_phone, tmp1_faculty, tmp1_course);
 
             cout << ("\n\nВведите фамилию студента -> ");
             cin >> tmp_surname;
@@ -208,6 +303,8 @@ int main(){
         cout << "2) Вывести списки студентов для каждого факультета и курса" << endl;
         cout << "3) Вывести список студентов, родившихся после заданного года" << endl;
         cout << "4) Создать копию элемента" << endl;
+        cout << "5) Перегрузка" << endl;
+        cout << "6) Дружественный метод GetInfo " << endl;
         cout << "0) Выход" << endl;
         cout << "Введите выбранный вариант -> ";
         cin >> menu_answer_sort;
@@ -301,17 +398,82 @@ int main(){
                 cout << ("Введите фамилию студента, для записи которого необходима копия-> ");
                 cin >> choosen_surname;
                 Student tmp_people;
+                //Student copy_people;//
                 for (int i = 0; i < n; ++i) {
                     tmp_people = mas_peoples.front();
-                    if (tmp_people.CreateCopy(choosen_surname)) {
+                    if (tmp_people.FundSurname(choosen_surname)) {
                         tmp_people.GetDate();
-                        tmp_people.GetDate();
-                        mas_peoples.push_back(tmp_people);
+                        //copy_people.CreateCopy(tmp_people);
+                        Student copy_people = tmp_people;
+                        copy_people.GetDate();
+                        mas_peoples.push_back(copy_people);
                     }
                     else tmp_people.GetDate();
                     mas_peoples.pop_front();
                     mas_peoples.push_back(tmp_people);
                 }
+
+                break;
+            }
+
+/*-----------------------------------------------------------------------------Лабораторная работа №2-------------------------------------------------------------------*/
+            case(5): {
+                                                                
+                Student a("Иванов", 2);
+                Student b("Смирнов", 2);
+                cout << a.getSurname() << " на " << a.getCourse() << " курсе " << endl;
+                cout << b.getSurname() << " на " << b.getCourse() << " курсе " << endl << endl;
+                
+                bool rezult11 = a == b;                                                                     //Перегрузка операции равенста (1-ый набор данных)
+                if (rezult11 == true) cout << "Один курс обученя" << endl;
+                else cout << "Разные курсы обученя" << endl;
+
+                bool rezult12 = a != b;                                                                     //Перегрузка операции неравенста (1-ый набор данных)
+                if (rezult12 == true) cout << "Разные фамилии" << endl << endl;
+                else cout << "Однофамильцы" << endl << endl;
+
+                
+                cout << "_________________________________" << endl;
+                Student c("Петров", 1);
+                Student d("Петров", 2);
+                cout << c.getSurname() << " на " << c.getCourse() << " курсе " << endl;
+                cout << d.getSurname() << " на " << d.getCourse() << " курсе " << endl << endl;
+
+                bool rezult21 = c == d;                                                                     //Перегрузка операции равенста (2-ой набор данных)
+                if (rezult21 == true) cout << "Один курс обученя" << endl;
+                else cout << "Разные курсы обученя" << endl;
+
+                bool rezult22 = c != d;                                                                     //Перегрузка операции неравенста (2-ой набор данных)
+                if (rezult22 == true) cout << "Разные фамилии" << endl << endl;
+                else cout << "Однофамильцы" << endl << endl;
+
+
+
+                cout << "_________________________________" << endl;
+                cout << "a = " << a.getSurname() << " на " << a.getCourse() << " курсе " << endl;
+                cout << "c = " << c.getSurname() << " на " << c.getCourse() << " курсе " << endl << endl;
+                Student new_student = a = c;                                                                //Перегрузка операции присвоения
+                cout << "a = c = " << new_student.getSurname() << " на " << new_student.getCourse() << " курсе " << endl << endl;
+
+                break;
+            }
+           
+
+            case(6): {                                                                                      //Дружественный метод GetInfo
+                string tmp1_surname = "Новик";
+                string tmp1_name = "Илья";
+                string tmp1_fathername = "Львович";
+                string tmp1_birthday = "20.01.2003";
+                string tmp1_address = "Пенза";
+                int tmp1_phone = 121214;
+                string tmp1_faculty = "ФВТ";
+                int tmp1_course = 2;
+                Student a(tmp1_surname, tmp1_name, tmp1_fathername, tmp1_birthday, tmp1_address, tmp1_phone, tmp1_faculty, tmp1_course);
+
+                Observer a_copy;
+                a_copy.getInfo(a);
+
+                
 
                 break;
             }
@@ -322,3 +484,13 @@ int main(){
     }                                                           
 }
 
+void Observer::getInfo(Student& value) {
+    cout << value.m_surname << " ";
+    cout << value.m_name << " ";
+    cout << value.m_fathername << " ";
+    cout << value.m_birthday << " ";
+    cout << value.m_address << " ";
+    cout << value.m_phone << " ";
+    cout << value.m_faculty << " ";
+    cout << value.m_course << "\n";
+}
